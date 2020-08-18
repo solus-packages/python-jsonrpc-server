@@ -1,0 +1,30 @@
+name       : python-jsonrpc-server
+version    : 0.3.4
+release    : 1
+source     :
+    - https://files.pythonhosted.org/packages/0b/ed/ce08d4ba6048a54935797f1fcc63ce30135475cfc858778c286a0be21433/python-jsonrpc-server-0.3.4.tar.gz : c73bf5495c9dd4d2f902755bedeb6da5afe778e0beee82f0e195c4655352fe37
+homepage   : https://github.com/palantir/python-jsonrpc-server
+license    : MIT
+component  : programming.python
+summary    : Python library implementing asynchronous JSON RPC server
+description: |
+    Python library implementing asynchronous JSON RPC server
+builddeps  :
+    - pycodestyle
+    - pyflakes
+    - pylint
+    - python-mock
+    - python-pytest-cov
+    - python-ujson
+rundeps    :
+    - python-ujson
+setup      : |
+    # remove ujson version
+    sed -i 's/ujson<=1.35;/ujson;/' setup.py 
+build      : |
+    %python3_setup
+install    : |
+    %python3_install 
+check      : |
+    # ignore tests not compatible with current python versions
+    %python3_test py.test3 -v -k 'not test_writer_bad_message'
